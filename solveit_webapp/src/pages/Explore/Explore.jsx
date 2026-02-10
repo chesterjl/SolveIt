@@ -46,7 +46,6 @@ const Explore = () => {
                 setQuestions(questionsData);
             }
 
-            console.log("Questions: ", response.data.content);
         } catch (error) {
             console.error("Error fetching questions:", error);
         } finally {
@@ -59,7 +58,6 @@ const Explore = () => {
             const response = await AxiosConfig.get(API_ENDPOINTS.GET_QUESTION(questionId));
             if (response.status === 200) {
                 setQuestionData(response.data);
-                console.log("Question data:", response.data);
             }
         } catch (error) {
             console.error("Error fetching answers:", error);
@@ -68,7 +66,6 @@ const Explore = () => {
 
     const handleLikesQuestion = async (e, questionId) => {
         e.stopPropagation();
-        console.log("Liking question ID:", questionId);
         try {
             const response = await AxiosConfig.post(API_ENDPOINTS.LIKE_QUESTION(questionId));
             if (response.status === 201 || response.status === 200) {
@@ -269,7 +266,7 @@ const Explore = () => {
                                     <div className="author-info">
                                         <div className="author-details">
                                             <span className="author-name">{questionData.author.name || 'Anonymous'}</span>
-                                            <span className="author-username">@{questionData.author.username || 'user'}</span>
+                                            <span className="author-username">{questionData.author.username || 'user'}</span>
                                         </div>
                                     </div>
                                     <span className="time-ago">{formatTimePost(questionData.createdAt)}</span>
@@ -310,7 +307,7 @@ const Explore = () => {
                                             <div className="answer-header">
                                                 <div className="author-details">
                                                     <span className="author-name">{answer.user.name || 'Anonymous'}</span>
-                                                    <span className="author-username">@{answer.user.username || 'user'}</span>
+                                                    <span className="author-username">{answer.user.username || 'user'}</span>
                                                 </div>
                                                 <span className="time-ago">{formatTimePost(answer.createdAt)}</span>
                                             </div>

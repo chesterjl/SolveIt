@@ -13,7 +13,5 @@ public class UpdateAccountRequest {
     private String bio;
     private String firstName;
     private String lastName;
-    private String password;
-    private String confirmationPassword;
 
 }

@@ -61,7 +61,7 @@ const Register = () => {
 
     return (
         <div className="register-container">
-            <div className="login-branding">
+            <div className="register-branding">
                 <div className="branding-content">
                     <div className="logo-section">
                         <h1 className="logo-text">Solve<span className="logo-highlight">It</span></h1>

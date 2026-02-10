@@ -1,9 +1,78 @@
+.profile-avatar-l {
+    color: #0891d1 !important;
+}
+
+.logo-text {
+    color: #0891d1 !important;
+}
+
+/* Sidebar.css */
+
 .sb-container {
-    min-width: 280px;
+    width: 280px; /* Default desktop width */
     height: 100vh;
     position: sticky;
     top: 0;
     left: 0;
     z-index: 1000;
     overflow-y: auto;
+}
+
+/* Responsive transformation */
+@media (max-width: 768px) {
+    .sb-container {
+        width: 100%;
+        height: auto;
+        flex-direction: row !important; /* Move to top */
+        padding: 10px 15px !important;
+        position: fixed; /* Keep it at the top */
+        top: 0;
+        left: 0;
+        border-bottom: 1px solid #e2e8f0;
+        border-right: none !important;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Hide the logo text or make it smaller on mobile to save space */
+    .sb-container .mb-4 {
+        margin-bottom: 0 !important;
+    }
+
+    .logo-text {
+        font-size: 1.5rem !important;
+    }
+
+    /* Make navigation links horizontal */
+    .sb-container nav {
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+
+    .sb-container .nav-link {
+        padding: 8px !important;
+        font-size: 0; /* Hide text on very small screens, show only icons */
+    }
+
+    .sb-container .nav-link i {
+        margin-right: 0 !important;
+        font-size: 1.5rem !important;
+    }
+
+    /* Adjust the profile section for mobile */
+    .sb-container .mt-auto {
+        margin-top: 0 !important;
+    }
+
+    /* Hide profile name on mobile to save space */
+    .flex-grow-1, .bi-three-dots {
+        display: none !important;
+    }
+
+    @media (min-width: 480px) {
+        /* Show text again on slightly larger mobile screens */
+        .sb-container .nav-link {
+            font-size: 0.9rem;
+        }
+    }
 }

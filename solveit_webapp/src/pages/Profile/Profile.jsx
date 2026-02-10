@@ -8,7 +8,7 @@ import { formatTimePost } from "../../util/UtilMethod.js";
 import { toast } from "react-toastify";
 
 const Profile = () => {
-    const { user } = useContext(AppContext);
+    const { user, refreshUser } = useContext(AppContext);
 
     const [userQuestions, setUserQuestions] = useState([]);
     const [questionData, setQuestionData] = useState(null);
@@ -19,17 +19,23 @@ const Profile = () => {
         title: '',
         description: ''
     });
+    const [profileData, setProfileData] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        bio: ''
+    });
 
     const [loading, setLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
+    const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
     const fetchUserQuestions = useCallback(async () => {
         try {
             setLoading(true);
             const response = await AxiosConfig.get(API_ENDPOINTS.GET_QUESTIONS_CURRENT_USER);
-            console.log(response.data.content);
             if (response.status === 200) {
                 const data = response.data.content;
                 setUserQuestions(data);
@@ -57,6 +63,36 @@ const Profile = () => {
             fetchUserQuestions();
         }
     }, [user, fetchUserQuestions]);
+
+    const openEditProfileModal = () => {
+        setProfileData({
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            username: user.username || '',
+            bio: user.bio || ''
+        });
+        setShowEditProfileModal(true);
+    };
+
+    const closeEditProfileModal = () => {
+        setShowEditProfileModal(false);
+    };
+
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await AxiosConfig.patch(API_ENDPOINTS.UPDATE_USER_INFO, profileData);
+            if (response.status === 200) {
+                toast.success("Profile updated successfully");
+                await refreshUser();
+                closeEditProfileModal();
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to update profile");
+        }
+    };
+
 
     const handleLikesQuestion = async (e, questionId) => {
         e.stopPropagation();
@@ -137,7 +173,8 @@ const Profile = () => {
 
             if (response.status === 200) {
                 toast.success('Question successfully updated.');
-                fetchUserQuestions();
+                await fetchUserQuestions();
+                if (refreshUser) await refreshUser(); // Refresh user stats
                 closeEditModal();
             }
         } catch (error) {
@@ -153,7 +190,8 @@ const Profile = () => {
             const response = await AxiosConfig.delete(API_ENDPOINTS.DELETE_QUESTION(selectedQuestion.id));
             if (response.status === 200) {
                 toast.success("Successfully deleted question");
-                fetchUserQuestions();
+                await fetchUserQuestions();
+                if (refreshUser) await refreshUser(); // Refresh user stats
                 closeEditModal();
             }
         } catch (error) {
@@ -175,7 +213,8 @@ const Profile = () => {
             if (response.status === 201) {
                 toast.success("Answer added successfully!");
                 setAnswerInput('');
-                fetchAnswers(selectedQuestion.id);
+                await fetchAnswers(selectedQuestion.id);
+                if (refreshUser) await refreshUser(); // Refresh user stats (answers count)
             }
         } catch (error) {
             console.error("Error submitting answer:", error);
@@ -207,20 +246,25 @@ const Profile = () => {
                         <div className="profile-avatar-large">
                             <i className="bi bi-person-circle"></i>
                         </div>
+
                         <div className="profile-text-info">
                             <h1 className="profile-real-name">{user.name}</h1>
                             <p className="profile-handle">{user.username}</p>
                             <p className="profile-bio">{user.bio}</p>
                         </div>
+                        <button className="modal-btn update-btn" onClick={openEditProfileModal}>
+                            <i className="bi bi-pencil-square"></i>
+                            Edit Profile
+                        </button>
                     </div>
 
                     <div className="profile-stats-bar">
                         <div className="stat-card">
-                            <span className="stat-value">{user.questions}</span>
+                            <span className="stat-value">{user.questions || 0}</span>
                             <span className="stat-label">Questions</span>
                         </div>
                         <div className="stat-card">
-                            <span className="stat-value">{user.answers}</span>
+                            <span className="stat-value">{user.answers || 0}</span>
                             <span className="stat-label">Answers</span>
                         </div>
                     </div>
@@ -241,8 +285,8 @@ const Profile = () => {
                     ) : (
                         userQuestions.map((question) => (
                             <div key={question.id}
-                                className="question-card"
-                                onClick={() => handleQuestionClick(question)}>
+                                 className="question-card"
+                                 onClick={() => handleQuestionClick(question)}>
 
                                 <div className="question-header">
                                     <div className="author-info">
@@ -254,7 +298,7 @@ const Profile = () => {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                         <span className="time-ago">{formatTimePost(question.createdAt)}</span>
                                         <button className="more-options-btn"
-                                            onClick={(e) => openEditModal(e, question)}>
+                                                onClick={(e) => openEditModal(e, question)}>
                                             <i className="bi bi-three-dots-vertical"></i>
                                         </button>
                                     </div>
@@ -276,13 +320,13 @@ const Profile = () => {
                                     </div>
 
                                     <div className={`stat-item likes ${question.liked ? 'active' : ''}`}
-                                        onClick={(e) => handleLikesQuestion(e, question.id)}>
+                                         onClick={(e) => handleLikesQuestion(e, question.id)}>
                                         <i className={`bi ${question.liked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}`}></i>
                                         <span>{question.likes || 0}</span>
                                     </div>
 
                                     <div className={`stat-item dislikes ${question.unliked ? 'active' : ''}`}
-                                        onClick={(e) => handleUnLikesQuestion(e, question.id)}>
+                                         onClick={(e) => handleUnLikesQuestion(e, question.id)}>
                                         <i className={`bi ${question.unliked ? 'bi-hand-thumbs-down-fill' : 'bi-hand-thumbs-down'}`}></i>
                                         <span>{question.unlikes || 0}</span>
                                     </div>
@@ -292,6 +336,79 @@ const Profile = () => {
                     )}
                 </div>
             </main>
+
+            {showEditProfileModal && (
+                <div className="modal-overlay" onClick={closeEditProfileModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Edit Profile</h3>
+                            <button className="modal-close" onClick={closeEditProfileModal}>
+                                <i className="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+
+                        <div className="modal-body">
+                            <form className="ask-question-form" onSubmit={handleUpdateProfile}>
+
+                                <div className="form-group">
+                                    <label>First Name</label>
+                                    <input
+                                        type="text"
+                                        value={profileData.firstName}
+                                        onChange={(e) =>
+                                            setProfileData({ ...profileData, firstName: e.target.value })
+                                        }
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Last Name</label>
+                                    <input
+                                        type="text"
+                                        value={profileData.lastName}
+                                        onChange={(e) =>
+                                            setProfileData({ ...profileData, lastName: e.target.value })
+                                        }
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Username</label>
+                                    <input
+                                        type="text"
+                                        value={profileData.username}
+                                        onChange={(e) =>
+                                            setProfileData({ ...profileData, username: e.target.value })
+                                        }
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Bio</label>
+                                    <textarea
+                                        rows="4"
+                                        value={profileData.bio}
+                                        onChange={(e) =>
+                                            setProfileData({ ...profileData, bio: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button type="submit" className="modal-btn update-btn">
+                                        <i className="bi bi-save"></i>
+                                        Save Changes
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Edit Modal */}
             {showEditModal && (
@@ -311,11 +428,11 @@ const Profile = () => {
                                         Be specific and imagine you're asking a question to another person.
                                     </p>
                                     <input type="text"
-                                        id="title"
-                                        placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-                                        value={data.title}
-                                        onChange={(e) => setData({ ...data, title: e.target.value })}
-                                        required/>
+                                           id="title"
+                                           placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+                                           value={data.title}
+                                           onChange={(e) => setData({ ...data, title: e.target.value })}
+                                           required/>
                                 </div>
 
                                 <div className="form-group">
@@ -324,11 +441,11 @@ const Profile = () => {
                                         Include all the information someone would need to answer your question.
                                     </p>
                                     <textarea id="description"
-                                        rows="8"
-                                        placeholder="Write your details here..."
-                                        value={data.description}
-                                        onChange={(e) => setData({ ...data, description: e.target.value })}
-                                        required>
+                                              rows="8"
+                                              placeholder="Write your details here..."
+                                              value={data.description}
+                                              onChange={(e) => setData({ ...data, description: e.target.value })}
+                                              required>
                                     </textarea>
                                 </div>
 
@@ -356,11 +473,11 @@ const Profile = () => {
                                         <div className="image-preview">
                                             <img src={image} alt="Preview" />
                                             <button type="button"
-                                                onClick={() => {
-                                                    setImage(null);
-                                                    setImageFile(null);
-                                                }}
-                                                className="remove-img-btn">
+                                                    onClick={() => {
+                                                        setImage(null);
+                                                        setImageFile(null);
+                                                    }}
+                                                    className="remove-img-btn">
                                                 <i className="bi bi-x-circle-fill"></i>
                                             </button>
                                         </div>
@@ -402,7 +519,7 @@ const Profile = () => {
                                     <div className="author-info">
                                         <div className="author-details">
                                             <span className="author-name">{questionData.author.name || 'Anonymous'}</span>
-                                            <span className="author-username">@{questionData.author.username || 'user'}</span>
+                                            <span className="author-username">{questionData.author.username || 'user'}</span>
                                         </div>
                                     </div>
                                     <span className="time-ago">{formatTimePost(questionData.createdAt)}</span>
@@ -445,7 +562,7 @@ const Profile = () => {
                                             <div className="answer-header">
                                                 <div className="author-details">
                                                     <span className="author-name">{answer.user.name || 'Anonymous'}</span>
-                                                    <span className="author-username">@{answer.user.username || 'user'}</span>
+                                                    <span className="author-username">{answer.user.username || 'user'}</span>
                                                 </div>
                                                 <span className="time-ago">{formatTimePost(answer.createdAt)}</span>
                                             </div>

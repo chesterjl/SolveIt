@@ -26,32 +26,39 @@ export const AppContextProvider = (props) => {
         if (role) localStorage.setItem('role', role);
     }, []);
 
-    useEffect(() => {
-        async function loadUserInfo() {
-            if (!auth.token) return;
+    // Extract loadUserInfo into a separate function so it can be reused
+    const loadUserInfo = useCallback(async () => {
+        if (!auth.token) return;
 
-            try {
-                const response = await AxiosConfig.get(API_ENDPOINTS.GET_USER_INFO);
-                if (response.status === 200) {
-                    setUser(response.data.user);
-                    localStorage.setItem('user', JSON.stringify(response.data.user));
-                }
-            } catch (error) {
-                console.error("Failed to fetch user info:", error);
-                if (error.response?.status === 401) {
-                    clearUser();
-                }
+        try {
+            const response = await AxiosConfig.get(API_ENDPOINTS.GET_USER_INFO);
+            if (response.status === 200) {
+                setUser(response.data.user);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            }
+        } catch (error) {
+            console.error("Failed to fetch user info:", error);
+            if (error.response?.status === 401) {
+                clearUser();
             }
         }
-
-        loadUserInfo();
     }, [auth.token, clearUser]);
+
+    // Function to manually refresh user data
+    const refreshUser = useCallback(async () => {
+        await loadUserInfo();
+    }, [loadUserInfo]);
+
+    useEffect(() => {
+        loadUserInfo();
+    }, [loadUserInfo]);
 
     const contextValue = {
         auth,
         user,
         setAuthData,
         clearUser,
+        refreshUser, // Export refreshUser
     }
 
     return (

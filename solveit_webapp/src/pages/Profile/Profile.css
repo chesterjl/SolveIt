@@ -6,12 +6,26 @@
     margin-bottom: 30px;
 }
 
+/*.profile-top {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 24px;*/
+/*    margin-bottom: 24px;*/
+/*}*/
+
 .profile-top {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 24px;
-    margin-bottom: 24px;
+    gap: 20px;
 }
+
+.profile-top .update-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 
 .profile-avatar-large i {
     font-size: 80px;
@@ -73,7 +87,6 @@
     margin-bottom: 20px;
 }
 
-
 .question-card {
     padding: 16px;
 }
@@ -81,7 +94,6 @@
 .question-title {
     font-size: 18px;
 }
-
 
 .questions-feed {
     display: flex;
@@ -115,11 +127,6 @@
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.author-avatar {
-    font-size: 40px;
-    color: #64748b;
 }
 
 .author-details {
@@ -168,28 +175,6 @@
     width: 100%;
     height: auto;
     display: block;
-}
-
-.question-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.tag {
-    padding: 6px 12px;
-    background: #e0f2fe;
-    color: #0c4a6e;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.2s;
-}
-
-.tag:hover {
-    background: #0891d1;
-    color: #ffffff;
 }
 
 .question-stats {
@@ -317,9 +302,6 @@
     box-shadow: 0 4px 12px rgba(8, 145, 209, 0.3);
 }
 
-/* Add these styles to your existing Profile.css file */
-
-/* More Options Button */
 .more-options-btn {
     background: none;
     border: none;

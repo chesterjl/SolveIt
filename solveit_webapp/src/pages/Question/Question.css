@@ -164,3 +164,14 @@
 .btn-cancel:active {
     transform: translateY(0);
 }
+
+@media (max-width: 768px) {
+    .explore-container {
+        flex-direction: column; /* Stack vertically */
+    }
+
+    .explore-main {
+        margin-top: 70px; /* Push content down to clear the fixed top bar */
+        padding: 15px;
+    }
+}

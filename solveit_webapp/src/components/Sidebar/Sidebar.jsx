@@ -35,23 +35,23 @@ const Sidebar = () => {
     return (
         <aside className="d-flex flex-column bg-white border-end p-3 sb-container">
             <div className="mb-4 text-center text-md-start">
-                <h2 className="h4 fw-bold text-dark">
-                    Solve<span className="text-primary">It</span>
+                <h2 className="h2 fw-bold logo-text">
+                    Solve<span className="logo-highlight">It</span>
                 </h2>
             </div>
 
-            <nav className="nav flex-column flex-grow-1 gap-2">
+            <nav className="nav flex-column flex-grow-1 gap-3">
                 <Link className={`nav-link d-flex align-items-center rounded-5 ${isActive('/explore') ? 'active bg-light text-primary fw-semibold' : 'text-dark'}`}
                     to="/explore">
-                    <i className="bi bi-compass fs-4 me-2"></i> Explore
+                    <i className="bi bi-compass fs-2 me-2"></i> Explore
                 </Link>
                 <Link className={`nav-link d-flex align-items-center rounded-5 ${isActive('/questions') ? 'active bg-light text-primary fw-semibold' : 'text-dark'}`}
                     to="/questions">
-                    <i className="bi bi-question-circle fs-4 me-2"></i> Questions
+                    <i className="bi bi-question-circle fs-2 me-2"></i> Questions
                 </Link>
                 <Link className={`nav-link d-flex align-items-center rounded-5 ${isActive('/profile') ? 'active bg-light text-primary fw-semibold' : 'text-dark'}`}
                     to="/profile">
-                    <i className="bi bi-person fs-4 me-2"></i> Profile
+                    <i className="bi bi-person fs-2 me-2"></i> Profile
                 </Link>
             </nav>
 
@@ -67,7 +67,7 @@ const Sidebar = () => {
                 <div className={`d-flex align-items-center gap-2 p-2 rounded-pill cursor-pointer ${showDropdown ? 'bg-light' : ''}`}
                     onClick={() => setShowDropdown(!showDropdown)}>
 
-                    <i className="bi bi-person-circle fs-3 text-primary"></i>
+                    <i className="bi bi-person-circle fs-3 profile-avatar-l "></i>
                     <div className="flex-grow-1">
                         <div className="fw-semibold">{user?.name}</div>
                         <div className="text-muted" style={{ fontSize: '0.85rem' }}>
