@@ -1,16 +1,55 @@
-# React + Vite
+SolveIt 💡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SolveIt is a full-stack Q&A platform designed for developers and curious minds. Users can ask questions, upload images to illustrate problems, provide answers, and engage with the community through a like/dislike voting system.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Features
+User Authentication: Secure login and registration.
+User Profiles: Customizable profiles with bios and real-time stats (Questions/Answers count).
+Question Management: Create, Edit, and Delete public questions with image support.
+Engagement: Real-time Like/Dislike system for questions.
+Discussion: Interactive answer sections for every question.
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🛠️ Tech Stack
+Frontend
+React.js: Library for building the UI.
+Context API: Global state management (Auth/User data).
+CSS3: Custom styling with Flexbox/Grid and Media Queries.
+Bootstrap Icons: For a modern, clean interface.
+Axios: For handling API requests.
 
-## Expanding the ESLint configuration
+Backend
+Java (Spring Boot): Core framework.
+Spring Data JPA: For database interaction.
+Hibernate: ORM layer.
+Spring Security: Handling JWT and endpoint protection.
+MySQL: Relational database.
+Cloudinary: Uploading image
+Brevo: Sending email
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+📦 Installation & Setup
+
+📦 Installation & Setup
+1. Prerequisites
+  Node.js (v16+)
+  Java JDK 17+
+  Maven
+  Your preferred SQL Database
+
+2. Backend Setup
+  Navigate to the backend folder.
+  Configure your database in src/main/resources/application.properties  
+  
+  Local Setup
+  change env variables in src/main/resources/application-dev.properties
+
+  Prod Setup
+  change env variables in  src/main/resources/application-prod.properties
+
+
+  
+
+
+  
