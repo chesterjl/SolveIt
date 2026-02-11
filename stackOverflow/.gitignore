@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Ignore specific property files
-**/src/main/resources/application.properties
-**/src/main/resources/application-dev.properties
 
 ### STS ###
 .apt_generated

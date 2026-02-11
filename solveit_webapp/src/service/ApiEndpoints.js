@@ -1,5 +1,8 @@
+// BASE URL FOR PROD
+export const BASE_URL = 'https://solveit-backend.onrender.com/api/v1';
+
 // BASE URL FOR LOCAL
-export const BASE_URL = 'http://localhost:8080/api/v1';
+// export const BASE_URL = 'http://localhost:8080/api/v1';
 
 export const API_ENDPOINTS = {
     LOGIN:  "/login",

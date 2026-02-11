@@ -2,12 +2,9 @@ package com.lauzon.stackOverflow.controller;
 
 import com.lauzon.stackOverflow.dto.request.LoginRequest;
 import com.lauzon.stackOverflow.dto.request.RegisterUserRequest;
-import com.lauzon.stackOverflow.dto.response.UserResponse;
-import com.lauzon.stackOverflow.service.AuthService;
 import com.lauzon.stackOverflow.service.impl.AuthServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +28,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterUserRequest request) {
-        UserResponse registeredUser = authService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterUserRequest request) {
+        authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Please check your email to activate your solveit account,");
     }
 
     @GetMapping("/activate")

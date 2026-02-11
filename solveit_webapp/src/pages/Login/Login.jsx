@@ -28,7 +28,6 @@ const Login = () => {
         setLoading(true);
         try {
             const response = await AxiosConfig.post(API_ENDPOINTS.LOGIN, data);
-            console.log(response);
             if (response.status === 200) {
                 toast.success('Login successful');
 

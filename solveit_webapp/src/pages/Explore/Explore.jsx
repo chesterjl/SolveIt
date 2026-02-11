@@ -41,6 +41,7 @@ const Explore = () => {
                     response = await AxiosConfig.get(API_ENDPOINTS.GET_FEEDS);
             }
 
+            console.log(response.data.content);
             if (response.status === 200) {
                 const questionsData = response.data.content;
                 setQuestions(questionsData);

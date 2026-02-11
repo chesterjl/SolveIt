@@ -10,6 +10,7 @@ import com.lauzon.stackOverflow.service.AuthService;
 import com.lauzon.stackOverflow.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +37,11 @@ public class AuthServiceImpl implements AuthService {
     private String ACTIVATION_URL;
 
     @Override
-    public UserResponse register(RegisterUserRequest request) {
+    public void register(RegisterUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new AccessDeniedException("Email already exist");
+        }
+
         UserEntity newUser = convertToEntity(request);
         newUser.setActivationToken(UUID.randomUUID().toString());
         newUser.setRole(Role.USER);
@@ -45,7 +50,6 @@ public class AuthServiceImpl implements AuthService {
         String subject = "Activate your SolveIt Account";
         String body = "Click the link below to activate your account:\n" + activationLink;
         emailService.sendEmail(newUser.getEmail(), subject, body);
-        return convertToResponseDto(newUser);
     }
 
     @Override

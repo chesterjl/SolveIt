@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface AuthService {
 
-    UserResponse register(RegisterUserRequest request);
+    void register(RegisterUserRequest request);
 
     Map<String, Object> login(LoginRequest loginRequest);
 

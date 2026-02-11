@@ -17,7 +17,6 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
     List<AnswerEntity> findAllByQuestionId(Long questionId);
 
-
     Optional<AnswerEntity> findByIdAndUserId(Long questionId, Long userId);
 
     @Query("SELECT COUNT(a) FROM AnswerEntity a WHERE a.user.id = :userId")

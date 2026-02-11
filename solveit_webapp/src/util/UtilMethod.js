@@ -3,8 +3,14 @@ import {toast} from "react-toastify";
 export const formatTimePost = (dateString) => {
     if (!dateString) return 'recently';
 
+    // Force UTC interpretation by adding 'Z' if not present
+    let dateStr = dateString;
+    if (!dateString.endsWith('Z') && !dateString.includes('+')) {
+        dateStr = dateString + 'Z';
+    }
+
     const now = new Date();
-    const createdAt = new Date(dateString);
+    const createdAt = new Date(dateStr);
     const diffInMs = now - createdAt;
 
     const seconds = Math.floor(diffInMs / 1000);
@@ -55,7 +61,7 @@ export const validateForm = (data) => {
         return false;
     }
 
-    if (data.password.length > 20) {  // REMOVE THE ! HERE
+    if (data.password.length > 20) {
         toast.error('Password must be maximum 20 characters long');
         return false;
     }
