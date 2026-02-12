@@ -13,11 +13,12 @@ root
 ├── solveit_webapp → Frontend (React)
 ├── stackoverflow → Backend (Spring Boot)
 
+```
 
 ### 🔹 Frontend (`solveit_webapp`)
 Built using React and modern UI tools.
 
-Main folders:
+```Main folders:
 - `assets/`
 - `components/`
 - `context/`
@@ -26,11 +27,12 @@ Main folders:
 - `util/`
 - `App.jsx`
 - `main.jsx`
+```
 
 ### 🔹 Backend (`stackoverflow`)
 Spring Boot REST API.
 
-Main packages:
+```Main packages:
 - `config`
 - `controller`
 - `dto`
@@ -68,6 +70,7 @@ Main packages:
 
 # 🧪 Environment Variables Guide
 
+## Backend (`application.properties`)
 ```properties
 jwt.secret.key=your_secret_key
 jwt.expiration.time=your_expiration_time
