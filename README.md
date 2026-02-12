@@ -81,6 +81,8 @@ cloudinary.api-secret=your_api_secret
 
 brevo.api.key=your_brevo_key
 brevo.from.email=your_brevo_from_email
+
+spring.profiles.active=(dev/prod) used dev for local deployment and prod for production
 ```
 
 ## Backend Local (`application-dev.properties`)
@@ -92,7 +94,7 @@ spring.datasource.password=your_password
 
 ```
 
-## Backend Producion (`application-prod.properties`)
+## Backend Production (`application-prod.properties`)
 ```properties
 spring.datasource.url=jdbc:postgresql://render_db_url
 spring.datasource.username=render_username
