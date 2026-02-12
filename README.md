@@ -5,27 +5,6 @@ It allows users to post questions, submit answers, interact with other developer
 
 - **Access SolveIt** - https://deluxe-haupia-91bcb3.netlify.app/login
 
-## 🚀 Features
-
-- **Single Page Application** - Smooth scrolling navigation between sections
-- **Dark Mode Toggle** - Beautiful dark/light theme switcher
-- **Fully Responsive** - Optimized for all devices (mobile, tablet, desktop)
-- **Modern UI/UX** - Inspired by contemporary design trends
-- **Smooth Animations** - Elegant fade-in and hover effects
-- **Four Main Sections**:
-  - Home - Hero section with compelling introduction
-  - Skills - Showcase your technical expertise with visual progress bars
-  - Projects - Display your featured work
-  - Contact - Contact form and social links
-
-## 🛠️ Tech Stack
-
-- **React** - JavaScript library for building user interfaces
-- **CSS** - Custom styling with CSS variables for theming
-- **Bootstrap** - (Optional) For additional responsive utilities
-- **Lucide React** - Beautiful icon library
-
-
 ## 📂 Project Structure
 
 ```
@@ -158,5 +137,3 @@ npm run dev
 - Account activation through email link (Brevo)
 - Secure REST API
 - Role-based access (Admin/User)
-
-
